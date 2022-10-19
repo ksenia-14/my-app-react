@@ -41,7 +41,7 @@
     font-size: 25px;
 }
 
-.add-cart {
+.add-cart-plus {
     justify-self: end;
     background-color: white;
 
@@ -53,8 +53,24 @@
     cursor: pointer;
 }
 
-.add-cart img {
+.add-cart-plus img {
     width: 15px;
+}
+
+.add-cart-check {
+    justify-self: end;
+    background-color: #001aff82;
+
+    border: 2px solid black;
+    border-radius: 10px;
+
+    padding: 20px;
+    padding-bottom: 16px;
+    cursor: pointer;
+}
+
+.add-cart-check img {
+    width: 20px;
 }
 
 /* кнопка добавить в избранное*/
