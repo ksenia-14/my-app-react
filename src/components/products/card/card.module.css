@@ -71,6 +71,9 @@
 
 .add-cart-check img {
     width: 20px;
+    fill: currentColor ;
+    stroke: currentColor;
+    color: white;
 }
 
 /* кнопка добавить в избранное*/

@@ -2,10 +2,16 @@ import style from "./card.module.css"
 import React from "react"
 
 const Card = (props) => {
+// const Card = ({ title, description, price, img }) => { // метод деструктуризации
 
   const [added, setAdded] = React.useState(false);
 
   const onClickPlus = () => {
+    let title = props.title
+    let description = props.description
+    let price = props.price
+    let img = props.img
+    props.onPlus({title, description, price, img});
     setAdded(!added);
   }
 
@@ -21,7 +27,7 @@ const Card = (props) => {
       <div className={style['product-price']}>
         <span>{props.price} руб</span>
         <button className={added ? style['add-cart-check'] : style['add-cart-plus']} onClick={onClickPlus}>
-          <img src={added ? './img/check.png' : './img/plus.png'} alt="plus" />
+          <img src={added ? './img/check-lg.svg' : './img/plus.png'} alt="plus" />
         </button>
       </div>
     </div>

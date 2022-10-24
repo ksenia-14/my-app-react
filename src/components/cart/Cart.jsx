@@ -1,7 +1,7 @@
 import CartItem from "./cartItem/CartItem"
 import style from "./cart.module.css"
 
-const cartList = [
+/* const cartList = [
   {
     id: 1,
     title: 'iPhone XR',
@@ -20,7 +20,7 @@ const cartList = [
     price: '42 999',
     img: '/img/iphone-1.png'
   }
-]
+] */
 
 const Cart = (props) => {
   return (
@@ -33,9 +33,13 @@ const Cart = (props) => {
 
         <div className={style["cart-list"]}>
           {
-            cartList.map(obj => {
+            props.cartItems.map(obj => {
               return(
-                <CartItem key={obj.id} title={obj.title} price={obj.price} img={obj.img} />
+                <CartItem 
+                    key={obj.id} 
+                    title={obj.title} 
+                    price={obj.price} 
+                    img={obj.img} />
               )
             })
           }

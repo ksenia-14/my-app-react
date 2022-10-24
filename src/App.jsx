@@ -13,16 +13,42 @@ function App() {
   const [products, setProduct] = React.useState([]);
   // state состояние корзины
   const [cartOpened, setCartOpened] = React.useState(false);
+  // state для хранения товаров в корзине
+  const [cartItems, setCartItems] = React.useState([]);
+  // state для поиска
+  const [search, setSearch] = React.useState('');
 
-  fetch('https://63500d1adf22c2af7b61c1de.mockapi.io/products');
+  // выполнение только при первичной отрисовке: React.useEffect(() => { ... }, [])
+  React.useEffect(() => {
+    // симуляция бэкенда
+    let api = 'https://63500d1adf22c2af7b61c1de.mockapi.io/products'
+    // fetch(api) - создающий код - запрос
+    // then( (myJson) => {} ) - потребляющий код (использует результат запроса)
+    // в myJson хранится результат запроса
+    fetch(api).then( (res) => {
+      
+      return res.json(); // возвращаем только json
+
+    }).then( (myJson) => {
+
+      // console.log(myJson)
+      setProduct(myJson);
+
+    })
+  }, [])
 
   return (
     <div className="App">
-      {cartOpened ? <Cart closeCart={() => setCartOpened(false)} /> : null}
+      {cartOpened ? <Cart cartItems={cartItems} closeCart={() => setCartOpened(false)} /> : null}
       <Header openCart={() => setCartOpened(true)} />
       <Banner />
       <TextSection />
-      <Products items={products}/>
+      <Products items={products} 
+                cartItems={cartItems} 
+                setCartItems={setCartItems}
+                setSearch={setSearch}
+                search={search}
+      />
       <Footer />
     </div>
   );
