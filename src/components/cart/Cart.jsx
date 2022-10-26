@@ -31,19 +31,27 @@ const Cart = (props) => {
           <button className={style['close-btn']} onClick={props.closeCart}>X</button>
         </div>
 
-        <div className={style["cart-list"]}>
-          {
-            props.cartItems.map(obj => {
-              return(
-                <CartItem 
-                    key={obj.id} 
-                    title={obj.title} 
-                    price={obj.price} 
-                    img={obj.img} />
-              )
-            })
-          }
-        </div>
+        {
+          props.cartItems.length > 0 ?
+            <div className={style["cart-list"]}>
+              {
+                props.cartItems.map(obj => {
+                  return (
+                    <CartItem
+                      key={obj.id}
+                      id={obj.id}
+                      title={obj.title}
+                      price={obj.price}
+                      img={obj.img}
+                      onRemoveCartItem={props.onRemoveCartItem}
+                    />
+                  )
+                })
+              }
+            </div>
+            :
+            <h2>Ваша корзина пустая</h2>
+        }
 
         <div className={style["total-price"]}>
           <p className={style['total-price-text']}>Итог: </p>

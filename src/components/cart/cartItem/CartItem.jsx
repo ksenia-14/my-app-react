@@ -9,7 +9,10 @@ const CartItem = (props) => {
                 <br />
                 <span className={style['cart-price']}>{props.price} руб.</span>
             </h3>
-            <button className={style['close-btn']}>X</button>
+            <button 
+                onClick={() => props.onRemoveCartItem(props.id)} 
+                className={style['close-btn']}
+            >X</button>
         </div>
     )
 }

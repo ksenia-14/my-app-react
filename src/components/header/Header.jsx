@@ -1,12 +1,17 @@
+import { Link } from 'react-router-dom'
 import style from './header.module.css'
 
 const Header = (props) => {
   return (
     <header className="app">
-      <h1 className={style.logo}>ITECH</h1>
+      <Link to='/'>
+        <h1 className={style.logo}>ITECH</h1>
+      </Link>
       <nav>
-        <a className={style['nav-item']} href=''>ИЗБРАННОЕ</a>
-        <a className={style['nav-item']} onClick={props.openCart}>КОРЗИНА</a>
+        <Link to='/favorites'>
+          <p className={style['nav-item']} href=''>ИЗБРАННОЕ</p>
+        </Link>
+        <p className={style['nav-item']} onClick={props.openCart}>КОРЗИНА</p>
       </nav>
     </header>
   )

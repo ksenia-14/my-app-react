@@ -5,6 +5,7 @@ const Card = (props) => {
 // const Card = ({ title, description, price, img }) => { // метод деструктуризации
 
   const [added, setAdded] = React.useState(false);
+  const[favorite, setFavorite] = React.useState(false);
 
   const onClickPlus = () => {
     let title = props.title
@@ -15,9 +16,24 @@ const Card = (props) => {
     setAdded(!added);
   }
 
+  const onClickFavorite = () => {
+    let title = props.title
+    let description = props.description
+    let price = props.price
+    let img = props.img
+    props.onFavorite({title, description, price, img});
+    setFavorite(!favorite);
+  }
+
   return (
     <div className={style['product-item']}>
-      <button className={style['favorite-btn']}>Добавить в избранное</button>
+      {
+        //! Не работает
+        favorite === true ? 
+        <button onClick={onClickFavorite} className={style['favorite-btn-added']}>Товар добавлен в избранное</button>
+        :
+        <button onClick={onClickFavorite} className={style['favorite-btn']}>Добавить в избранное</button>
+      }
       <img className={style['product-img']} src={props.img} alt={props.title} />
 
       <p className={style['product-title']}>{props.title}</p>
