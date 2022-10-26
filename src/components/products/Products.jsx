@@ -6,22 +6,37 @@ import style from "./products.module.css"
 function Products(props) {
 
   const onAddToCart = (objCart) => {
-    // отправить данные objCart по ссылке api_cart
-    let api_cart = 'https://63500d1adf22c2af7b61c1de.mockapi.io/cart'
-    axios.post(api_cart, objCart)
-    // вернуть все, что находится в массиве cartItems на данный момент
-    // и добавить объект после того, как отобразились все данные массива
-    props.setCartItems([...props.cartItems, objCart])
+    try {
+      if (props.cartItems.find((item) => Number(item.id) === Number(objCart.id))) {
+        axios.delete(`https://63500d1adf22c2af7b61c1de.mockapi.io/cart/${objCart.id}`)
+        props.setCartItems(prev => prev.filter(item => Number(item.id) === Number(objCart.id)))
+      } else {
+        // отправить данные objCart по ссылке api_cart
+        axios.post('https://63500d1adf22c2af7b61c1de.mockapi.io/cart', objCart)
+        // вернуть все, что находится в массиве cartItems на данный момент
+        // и добавить объект после того, как отобразились все данные массива
+        props.setCartItems([...props.cartItems, objCart])
+      }
+    } catch {
+      alert('Не удалось добавить товар в корзину')
+    }
   }
 
   const onAddToFavotites = (objFavorite) => {
-    let api_favorites = 'https://63500d1adf22c2af7b61c1de.mockapi.io/favorites'
-    axios.post(api_favorites, objFavorite)
-    props.setFavoritesItems([...props.favoritesItems, objFavorite])
+    try {
+      console.log(Number(objFavorite.id))
+      if (props.favoritesItems.find(obj => Number(obj.id) === Number(objFavorite.id))) {
+        axios.delete(`https://63500d1adf22c2af7b61c1de.mockapi.io/favorites/${objFavorite.id}`)
+      } else {
+        axios.post('https://63500d1adf22c2af7b61c1de.mockapi.io/favorites', objFavorite)
+        props.setFavoritesItems([...props.favoritesItems, objFavorite])
+      }
+    } catch {
+      alert('Не удалось добавить товар в избранное')
+    }
   }
 
   const onSearchInput = (inputValue) => {
-    // console.log(inputValue.target.value)
     props.setSearch(inputValue.target.value)
   }
 
@@ -45,6 +60,7 @@ function Products(props) {
                 description={obj.description}
                 price={obj.price}
                 img={obj.img}
+                id={obj.id}
                 onPlus={
                   (cartObj) => {
                     // console.log(cartObj)
@@ -56,17 +72,6 @@ function Products(props) {
                     onAddToFavotites(favoritesObj)
                   }
                 }
-
-              // onClickPlus={
-              //   () => {
-              //     alert("Вы выбрали товар: " + obj.title)
-              //   }
-              // }
-              // onClickFavorite={
-              //   () => {
-              //     alert("Вы добавили в избранное товар: " + obj.title)
-              //   }
-              // }
               />
             )
           })

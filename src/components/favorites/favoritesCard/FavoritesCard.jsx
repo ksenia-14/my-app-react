@@ -1,40 +1,35 @@
-import style from "./card.module.css"
+import style from "./favoritesCard.module.css"
 import React from "react"
 
-const Card = (props) => {
-// const Card = ({ title, description, price, img }) => { // метод деструктуризации
-
+const FavoritesCard = (props) => {
   const [added, setAdded] = React.useState(false);
-  const[favorite, setFavorite] = React.useState(false);
+  const[favorite, setFavorite] = React.useState(true);
 
   const onClickPlus = () => {
-    let id = props.id
     let title = props.title
     let description = props.description
     let price = props.price
     let img = props.img
-    props.onPlus({id, title, description, price, img});
+    props.onPlus({title, description, price, img});
     setAdded(!added);
   }
 
   const onClickFavorite = () => {
-    let id = props.id
-    let title = props.title
-    let description = props.description
-    let price = props.price
-    let img = props.img
-    props.onFavorite({id, title, description, price, img});
-    setFavorite(!favorite);
+    props.onFavorite(props.id);
+    // setFavorite(!favorite);
   }
 
   return (
     <div className={style['product-item']}>
-      {
+      {/* {
         favorite === true ? 
         <button onClick={onClickFavorite} className={style['favorite-btn-added']}>Товар добавлен в избранное</button>
         :
         <button onClick={onClickFavorite} className={style['favorite-btn']}>Добавить в избранное</button>
-      }
+      } */}
+      
+      <button onClick={onClickFavorite} className={style['favorite-btn-added']}>Товар добавлен в избранное</button>
+
       <img className={style['product-img']} src={props.img} alt={props.title} />
 
       <p className={style['product-title']}>{props.title}</p>
@@ -51,4 +46,4 @@ const Card = (props) => {
   )
 }
 
-export default Card
+export default FavoritesCard

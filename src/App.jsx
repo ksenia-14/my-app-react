@@ -3,11 +3,10 @@ import axios from 'axios';
 import { Route, Routes } from 'react-router-dom'
 import './App.css';
 import Header from './components/header/Header';
-import Banner from './components/banner/Banner';
 import Cart from './components/cart/Cart';
-import Products from './components/products/Products';
 import Footer from './components/footer/Footer';
-import TextSection from './components/textSection/TextSection';
+import Favorites from './components/favorites/Favorites';
+import Home from './components/Home';
 
 function App() {
 
@@ -20,7 +19,7 @@ function App() {
   // state для поиска
   const [search, setSearch] = React.useState('');
   // state для хранения избранных товаров
-  const [favoritesItems, setFavoritesItems] = React.useState('')
+  const [favoritesItems, setFavoritesItems] = React.useState([])
 
   // выполнение только при первичной отрисовке: React.useEffect(() => { ... }, [])
   React.useEffect(() => {
@@ -45,6 +44,11 @@ function App() {
     axios.get(api_cart).then((res) => {
       setCartItems(res.data)
     })
+
+    let api_favorites = 'https://63500d1adf22c2af7b61c1de.mockapi.io/favorites'
+    axios.get(api_favorites).then((res) => {
+      setFavoritesItems(res.data)
+    })
   }, [])
 
   const onRemoveCartItem = (id) => {
@@ -52,44 +56,48 @@ function App() {
 
     // все данные, которые находятся до выполнения prev.filter 
     // и отфильтровать их item.id !== id
-    setCartItems((prev) => prev.filter(item => item.id !== id))
+    setCartItems((prev) => prev.filter(item => Number(item.id) !== Number(id)))
   }
 
   return (
     <div className="App">
-      {cartOpened ? 
-      <Cart 
-        onRemoveCartItem={onRemoveCartItem} 
-        cartItems={cartItems} 
-        closeCart={() => setCartOpened(false)} 
-      /> 
-      : null}
 
-      <Routes>
-      <Route 
-          path='/favorites'
-          element={<h1>Вы перешли по пути "/favorites"</h1>}
+      {cartOpened ?
+        <Cart
+          onRemoveCartItem={onRemoveCartItem}
+          cartItems={cartItems}
+          closeCart={() => setCartOpened(false)}
         />
-      {/* <Route 
-          path='/test'
-          element={<h1>Вы перешли по пути "/test"</h1>}
-        /> */}
-        {/* <Route 
-          path='/test/:number'
-          element={<h1>Вы перешли по пути "/test"</h1>}
-        /> */}
-      </Routes>
+        : null}
 
       <Header openCart={() => setCartOpened(true)} />
-      <Banner />
-      <TextSection />
-      <Products items={products} 
-                cartItems={cartItems} 
-                setCartItems={setCartItems}
-                setSearch={setSearch}
-                search={search}
-                favoritesItems={setFavoritesItems}
-      />
+      <Routes>
+        <Route
+          path='/favorites'
+          element={
+            <Favorites
+              favoritesItems={favoritesItems}
+              setFavoritesItems={setFavoritesItems}
+              cartItems={cartItems}
+              setCartItems={setCartItems}
+            />
+          }
+        />
+        <Route
+          path='/'
+          element={
+            <Home
+              items={products}
+              cartItems={cartItems}
+              setCartItems={setCartItems}
+              setSearch={setSearch}
+              search={search}
+              favoritesItems={favoritesItems}
+              setFavoritesItems={setFavoritesItems}
+            />
+          }
+        />
+      </Routes>
       <Footer />
     </div>
   );
