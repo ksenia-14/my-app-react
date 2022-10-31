@@ -5,31 +5,36 @@ import style from "./products.module.css"
 
 function Products(props) {
 
-  const onAddToCart = (objCart) => {
+  // async - асинхронная функция
+  const onAddToCart = async (objCart) => {
     try {
-      if (props.cartItems.find((item) => Number(item.id) === Number(objCart.id))) {
-        axios.delete(`https://63500d1adf22c2af7b61c1de.mockapi.io/cart/${objCart.id}`)
-        props.setCartItems(prev => prev.filter(item => Number(item.id) === Number(objCart.id)))
+      const findCartItem = props.cartItems.find((cartItem) => cartItem.myId === objCart.myId)
+      if (findCartItem) {
+        // удаление с бэкенда
+        axios.delete(`https://63500d1adf22c2af7b61c1de.mockapi.io/cart/${findCartItem.id}`)
+        // удаление с фронтенда
+        props.setCartItems(prev => prev.filter(cartItem => cartItem.myId !== objCart.myId))
       } else {
-        // отправить данные objCart по ссылке api_cart
-        axios.post('https://63500d1adf22c2af7b61c1de.mockapi.io/cart', objCart)
+        // деструктуризация
+        // дожидаемся, когда выполнится этот запрос, потом выполняем props.setCartItems
+        const { data } = await axios.post('https://63500d1adf22c2af7b61c1de.mockapi.io/cart', objCart)
         // вернуть все, что находится в массиве cartItems на данный момент
         // и добавить объект после того, как отобразились все данные массива
-        props.setCartItems([...props.cartItems, objCart])
+        props.setCartItems([...props.cartItems, data])
       }
     } catch {
       alert('Не удалось добавить товар в корзину')
     }
   }
 
-  const onAddToFavotites = (objFavorite) => {
+  const onAddToFavotites = async (objFavorite) => {
     try {
-      console.log(Number(objFavorite.id))
-      if (props.favoritesItems.find(obj => Number(obj.id) === Number(objFavorite.id))) {
-        axios.delete(`https://63500d1adf22c2af7b61c1de.mockapi.io/favorites/${objFavorite.id}`)
+      const findFavoriteItem = props.favoritesItems.find((favoriteItem) => favoriteItem.myId === objFavorite.myId)
+      if (findFavoriteItem) {
+        axios.delete(`https://63500d1adf22c2af7b61c1de.mockapi.io/favorites/${findFavoriteItem.id}`)
       } else {
-        axios.post('https://63500d1adf22c2af7b61c1de.mockapi.io/favorites', objFavorite)
-        props.setFavoritesItems([...props.favoritesItems, objFavorite])
+        const { data } = await axios.post('https://63500d1adf22c2af7b61c1de.mockapi.io/favorites', objFavorite)
+        props.setFavoritesItems([...props.favoritesItems, data])
       }
     } catch {
       alert('Не удалось добавить товар в избранное')
@@ -38,6 +43,39 @@ function Products(props) {
 
   const onSearchInput = (inputValue) => {
     props.setSearch(inputValue.target.value)
+  }
+
+  const renderCard = () => {
+
+    const filterItems = props.items.filter((item) =>
+      item.title.toLowerCase().includes(props.search.toLowerCase())
+    )
+
+    return (
+      props.loading ? [...Array(6)] : filterItems.map((obj, index) => {
+        return (
+          <Card
+            key={index}
+            {...obj}
+
+            isLoading={props.loading}
+            isAdded={props.cartItems.some((objIsAdded) => objIsAdded.myId === obj.myId)} // some - возвращает true/false
+            isFavorite={props.favoritesItems.some((objIsFavorite) => objIsFavorite.myId === obj.myId)}
+
+            onFavorite={
+              (favoritesObj) => {
+                onAddToFavotites(favoritesObj)
+              }
+            }
+            onPlus={
+              (cartObj) => {
+                onAddToCart(cartObj)
+              }
+            }
+          />
+        )
+      })
+    )
   }
 
   return (
@@ -52,30 +90,7 @@ function Products(props) {
 
       <div className={style["products"]}>
         {
-          props.items.filter((item) => item.title.toLowerCase().includes(props.search.toLowerCase())).map(obj => {
-            return (
-              <Card
-                key={obj.id}
-                id={obj.id}
-                myId={obj.myId}
-                title={obj.title}
-                description={obj.description}
-                price={obj.price}
-                img={obj.img}
-                onPlus={
-                  (cartObj) => {
-                    // console.log(cartObj)
-                    onAddToCart(cartObj)
-                  }
-                }
-                onFavorite={
-                  (favoritesObj) => {
-                    onAddToFavotites(favoritesObj)
-                  }
-                }
-              />
-            )
-          })
+          renderCard()
         }
       </div>
     </div>

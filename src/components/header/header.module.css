@@ -30,3 +30,31 @@ nav {
 .nav-item:hover {
     color: white;
 }
+
+.cart-btn{
+    display: grid;
+    grid-template-columns: 2fr 0.5fr;
+}
+
+.count-cart-items{
+    font-size: 14px;
+    font-weight: bold;
+    background: white;
+    padding: 5px;
+    border-radius: 20px;
+    color:#001aff;
+    margin: auto;
+    margin-left: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+

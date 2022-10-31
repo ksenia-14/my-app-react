@@ -20,35 +20,26 @@ function App() {
   const [search, setSearch] = React.useState('');
   // state для хранения избранных товаров
   const [favoritesItems, setFavoritesItems] = React.useState([])
+  // state для хранения состояния загрузки
+  const [loading, setLoading] = React.useState(true)
 
   // выполнение только при первичной отрисовке: React.useEffect(() => { ... }, [])
   React.useEffect(() => {
-    // симуляция бэкенда
-    // let api = 'https://63500d1adf22c2af7b61c1de.mockapi.io/products'
-    // fetch(api) - создающий код - запрос
-    // then( (myJson) => {} ) - потребляющий код (использует результат запроса)
-    // в myJson хранится результат запроса
-    // fetch(api).then( (res) => { 
-    //   return res.json(); // возвращаем только json
-    // }).then( (myJson) => {
-    //   console.log(myJson)
-    //   setProduct(myJson);
-    // })
 
-    let api_products = 'https://63500d1adf22c2af7b61c1de.mockapi.io/products'
-    axios.get(api_products).then((res) => {
-      setProduct(res.data)
-    })
+    async function axiosData() {
+      const productsData = await axios.get('https://63500d1adf22c2af7b61c1de.mockapi.io/products')
+      const cartData = await axios.get('https://63500d1adf22c2af7b61c1de.mockapi.io/cart')
+      const favoritesData = await axios.get('https://63500d1adf22c2af7b61c1de.mockapi.io/favorites')
 
-    let api_cart = 'https://63500d1adf22c2af7b61c1de.mockapi.io/cart'
-    axios.get(api_cart).then((res) => {
-      setCartItems(res.data)
-    })
+      setLoading(false)
 
-    let api_favorites = 'https://63500d1adf22c2af7b61c1de.mockapi.io/favorites'
-    axios.get(api_favorites).then((res) => {
-      setFavoritesItems(res.data)
-    })
+      setCartItems(cartData.data)
+      setFavoritesItems(favoritesData.data)
+      setProduct(productsData.data)
+    }
+
+    axiosData();
+
   }, [])
 
   const onRemoveCartItem = (id) => {
@@ -70,7 +61,7 @@ function App() {
         />
         : null}
 
-      <Header openCart={() => setCartOpened(true)} />
+      <Header openCart={() => setCartOpened(true)} cartItems={cartItems} />
       <Routes>
         <Route
           path='/favorites'
@@ -94,6 +85,7 @@ function App() {
               search={search}
               favoritesItems={favoritesItems}
               setFavoritesItems={setFavoritesItems}
+              loading={loading}
             />
           }
         />

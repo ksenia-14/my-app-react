@@ -11,7 +11,10 @@ const Header = (props) => {
         <Link to='/favorites'>
           <p className={style['nav-item']} href=''>ИЗБРАННОЕ</p>
         </Link>
-        <p className={style['nav-item']} onClick={props.openCart}>КОРЗИНА</p>
+        <div className={style['cart-btn']}>
+          <p className={style['nav-item']} onClick={props.openCart}>КОРЗИНА</p>
+          <span className={style['count-cart-items']}>{props.cartItems.length}</span>
+        </div>
       </nav>
     </header>
   )
