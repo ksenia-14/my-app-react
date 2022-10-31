@@ -56,11 +56,12 @@ function Products(props) {
             return (
               <Card
                 key={obj.id}
+                id={obj.id}
+                myId={obj.myId}
                 title={obj.title}
                 description={obj.description}
                 price={obj.price}
                 img={obj.img}
-                id={obj.id}
                 onPlus={
                   (cartObj) => {
                     // console.log(cartObj)

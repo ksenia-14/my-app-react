@@ -41,6 +41,7 @@ const Cart = (props) => {
                       key={obj.id}
                       id={obj.id}
                       title={obj.title}
+                      description={obj.description}
                       price={obj.price}
                       img={obj.img}
                       onRemoveCartItem={props.onRemoveCartItem}
@@ -49,8 +50,7 @@ const Cart = (props) => {
                 })
               }
             </div>
-            :
-            <h2>Ваша корзина пустая</h2>
+            : <h2>Ваша корзина пуста</h2>
         }
 
         <div className={style["total-price"]}>

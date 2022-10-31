@@ -6,11 +6,12 @@ const FavoritesCard = (props) => {
   const[favorite, setFavorite] = React.useState(true);
 
   const onClickPlus = () => {
+    let id = props.id
     let title = props.title
     let description = props.description
     let price = props.price
     let img = props.img
-    props.onPlus({title, description, price, img});
+    props.onPlus({id, title, description, price, img});
     setAdded(!added);
   }
 

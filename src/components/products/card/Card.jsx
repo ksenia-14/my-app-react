@@ -9,21 +9,23 @@ const Card = (props) => {
 
   const onClickPlus = () => {
     let id = props.id
+    let myId = props.myId
     let title = props.title
     let description = props.description
     let price = props.price
     let img = props.img
-    props.onPlus({id, title, description, price, img});
+    props.onPlus({id, myId, title, description, price, img});
     setAdded(!added);
   }
 
   const onClickFavorite = () => {
     let id = props.id
+    let myId = props.myId
     let title = props.title
     let description = props.description
     let price = props.price
     let img = props.img
-    props.onFavorite({id, title, description, price, img});
+    props.onFavorite({id, myId, title, description, price, img});
     setFavorite(!favorite);
   }
 
