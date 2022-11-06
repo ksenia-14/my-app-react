@@ -3,7 +3,11 @@ import axios from "axios";
 import style from "./favorites.module.css"
 import FavoritesCard from "./favoritesCard/FavoritesCard"
 
+import { AppContext } from "../../App";
+
 const Favorites = (props) => {
+
+  const context = React.useContext(AppContext)
 
   const onAddToCart = (objCart) => {
     // отправить данные objCart по ссылке api_cart
@@ -11,7 +15,7 @@ const Favorites = (props) => {
     axios.post(api_cart, objCart)
     // вернуть все, что находится в массиве cartItems на данный момент
     // и добавить объект после того, как отобразились все данные массива
-    props.setCartItems([...props.cartItems, objCart])
+    context.setCartItems([...context.cartItems, objCart])
   }
 
   const onRemoveFavorites = (id) => {
@@ -19,7 +23,7 @@ const Favorites = (props) => {
     // взять данные, которые есть на данный момент (весь массив в state)
     // и отфильтровать так, что id объекта state не должно равняться 
     // id товара, который был нажат
-    props.setFavoritesItems((prev) => prev.filter(item => Number(item.id) !== Number(id)))
+    context.setFavoritesItems((prev) => prev.filter(item => Number(item.id) !== Number(id)))
   }
 
   return (
@@ -31,7 +35,7 @@ const Favorites = (props) => {
 
       <div className={style["products"]}>
         {
-          props.favoritesItems.map(obj => {
+          context.favoritesItems.map(obj => {
             return (
               <FavoritesCard
                 key={obj.id}

@@ -2,11 +2,15 @@ import style from "./card.module.css"
 import React from "react"
 import ContentLoader from "react-content-loader";
 
+import { AppContext } from "../../../App";
+
 const Card = (props) => {
   // const Card = ({ title, description, price, img }) => { // метод деструктуризации
 
-  const [added, setAdded] = React.useState(props.isAdded);
-  const [favorite, setFavorite] = React.useState(props.isFavorite);
+  const context = React.useContext(AppContext)
+
+  // const [added, setAdded] = React.useState(props.isAdded);
+  // const [favorite, setFavorite] = React.useState(props.isFavorite);
 
   const onClickPlus = () => {
     let id = props.id
@@ -16,7 +20,7 @@ const Card = (props) => {
     let price = props.price
     let img = props.img
     props.onPlus({ id, myId, title, description, price, img });
-    setAdded(!added);
+    // setAdded(!added);
   }
 
   const onClickFavorite = () => {
@@ -27,15 +31,13 @@ const Card = (props) => {
     let price = props.price
     let img = props.img
     props.onFavorite({ id, myId, title, description, price, img });
-    setFavorite(!favorite);
+    // setFavorite(!favorite);
   }
 
-  const test = true
   return (
     <div className={style['product-item']}>
       {
         props.isLoading ?
-        // test ?
           <ContentLoader
             speed={2}
             width={290}
@@ -55,7 +57,7 @@ const Card = (props) => {
           :
           <>
             {
-              favorite === true ?
+              context.itemFavorited(props.id) === true ?
                 <button onClick={onClickFavorite} className={style['favorite-btn-added']}>Товар добавлен в избранное</button>
                 :
                 <button onClick={onClickFavorite} className={style['favorite-btn']}>Добавить в избранное</button>
@@ -68,8 +70,8 @@ const Card = (props) => {
 
             <div className={style['product-price']}>
               <span>{props.price} руб</span>
-              <button className={added ? style['add-cart-check'] : style['add-cart-plus']} onClick={onClickPlus}>
-                <img src={added ? './img/check-lg.svg' : './img/plus.png'} alt="plus" />
+              <button className={context.itemAdded(props.myId) ? style['add-cart-check'] : style['add-cart-plus']} onClick={onClickPlus}>
+                <img src={context.itemAdded(props.myId) ? './img/check-lg.svg' : './img/plus.png'} alt="plus" />
               </button>
             </div>
           </>

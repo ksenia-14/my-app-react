@@ -1,11 +1,13 @@
 import Banner from './banner/Banner';
 import Products from './products/Products';
 import TextSection from './textSection/TextSection';
+import TestSlider from './sliders/TestSlider';
 
 const Home = (props) => {
   return (
     <>
-      <Banner />
+      {/* <Banner /> */}
+      <TestSlider />
       <TextSection />
       <Products 
         items={props.items}

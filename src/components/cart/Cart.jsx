@@ -55,7 +55,7 @@ const Cart = (props) => {
 
         <div className={style["total-price"]}>
           <p className={style['total-price-text']}>Итог: </p>
-          <p className={style['total-price-summ']}>65 000 руб.</p>
+          <p className={style['total-price-summ']}>{props.totalPrice} руб.</p>
           <button>Заказать</button>
         </div>
 

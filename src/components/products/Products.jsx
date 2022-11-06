@@ -32,6 +32,7 @@ function Products(props) {
       const findFavoriteItem = props.favoritesItems.find((favoriteItem) => favoriteItem.myId === objFavorite.myId)
       if (findFavoriteItem) {
         axios.delete(`https://63500d1adf22c2af7b61c1de.mockapi.io/favorites/${findFavoriteItem.id}`)
+        props.setFavoritesItems(prev => prev.filter(favoriteItem => favoriteItem.myId !== objFavorite.myId))
       } else {
         const { data } = await axios.post('https://63500d1adf22c2af7b61c1de.mockapi.io/favorites', objFavorite)
         props.setFavoritesItems([...props.favoritesItems, data])
@@ -60,8 +61,8 @@ function Products(props) {
           {...obj}
 
           isLoading={props.loading}
-          isAdded={props.cartItems.some((objIsAdded) => objIsAdded.myId === obj.myId)} // some - возвращает true/false
-          isFavorite={props.favoritesItems.some((objIsFavorite) => objIsFavorite.myId === obj.myId)}
+          // isAdded={props.cartItems.some((objIsAdded) => objIsAdded.myId === obj.myId)} // some - возвращает true/false
+          // isFavorite={props.favoritesItems.some((objIsFavorite) => objIsFavorite.myId === obj.myId)}
 
           onFavorite={
             (favoritesObj) => {
