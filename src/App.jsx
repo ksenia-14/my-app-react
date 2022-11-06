@@ -64,7 +64,7 @@ function App() {
       <Header openCart={() => setCartOpened(true)} cartItems={cartItems} />
       <Routes>
         <Route
-          path='/favorites'
+          exact path='/favorites'
           element={
             <Favorites
               favoritesItems={favoritesItems}
@@ -75,7 +75,7 @@ function App() {
           }
         />
         <Route
-          path='/'
+          exact path='/'
           element={
             <Home
               items={products}
