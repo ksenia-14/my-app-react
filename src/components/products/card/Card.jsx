@@ -51,7 +51,8 @@ const Card = (props) => {
             <rect x="0" y="330" rx="0" ry="0" width="248" height="27" />
             <rect x="0" y="422" rx="0" ry="0" width="147" height="27" />
             <rect x="194" y="400" rx="0" ry="0" width="106" height="50" />
-          </ContentLoader> :
+          </ContentLoader>
+          :
           <>
             {
               favorite === true ?

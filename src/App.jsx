@@ -11,13 +11,13 @@ import Home from './components/Home';
 function App() {
 
   // state для хранения товаров
-  const [products, setProduct] = React.useState([]);
+  const [products, setProduct] = React.useState([])
   // state состояние корзины
-  const [cartOpened, setCartOpened] = React.useState(false);
+  const [cartOpened, setCartOpened] = React.useState(false)
   // state для хранения товаров в корзине
-  const [cartItems, setCartItems] = React.useState([]);
+  const [cartItems, setCartItems] = React.useState([])
   // state для поиска
-  const [search, setSearch] = React.useState('');
+  const [search, setSearch] = React.useState('')
   // state для хранения избранных товаров
   const [favoritesItems, setFavoritesItems] = React.useState([])
   // state для хранения состояния загрузки

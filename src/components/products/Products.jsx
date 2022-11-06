@@ -52,30 +52,30 @@ function Products(props) {
     )
 
     return (
-      props.loading ? [...Array(6)] : filterItems.map((obj, index) => {
-        return (
-          <Card
-            key={index}
-            {...obj}
+      props.loading ? [...Array(6)] : filterItems
+    ).map((obj, index) => {
+      return (
+        <Card
+          key={index}
+          {...obj}
 
-            isLoading={props.loading}
-            isAdded={props.cartItems.some((objIsAdded) => objIsAdded.myId === obj.myId)} // some - возвращает true/false
-            isFavorite={props.favoritesItems.some((objIsFavorite) => objIsFavorite.myId === obj.myId)}
+          isLoading={props.loading}
+          isAdded={props.cartItems.some((objIsAdded) => objIsAdded.myId === obj.myId)} // some - возвращает true/false
+          isFavorite={props.favoritesItems.some((objIsFavorite) => objIsFavorite.myId === obj.myId)}
 
-            onFavorite={
-              (favoritesObj) => {
-                onAddToFavotites(favoritesObj)
-              }
+          onFavorite={
+            (favoritesObj) => {
+              onAddToFavotites(favoritesObj)
             }
-            onPlus={
-              (cartObj) => {
-                onAddToCart(cartObj)
-              }
+          }
+          onPlus={
+            (cartObj) => {
+              onAddToCart(cartObj)
             }
-          />
-        )
-      })
-    )
+          }
+        />
+      )
+    })
   }
 
   return (
