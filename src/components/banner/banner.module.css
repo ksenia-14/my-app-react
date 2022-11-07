@@ -2,7 +2,6 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
-    margin: 50px;
 }
 
 .banner {
@@ -11,8 +10,10 @@
     justify-items: end;
     align-items: center;
 
-    padding-top: 40px;
-    padding-bottom: 40px;
+    /* padding-top: 40px;
+    padding-bottom: 40px; */
+    margin-left: 10px;
+    margin-right: 10px;
 
     background-image: url("/public/img/banner.jpeg");
     background-size: cover;

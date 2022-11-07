@@ -80,9 +80,12 @@ function Products(props) {
   }
 
   return (
+    <div className={style['products-center-container']}>
     <div className={style["products-section"]}>
+
       <div className={style["search"]}>
         <h2>{props.search ? `Поиск по запросу: ` + props.search : 'Все смартфоны'}</h2>
+
         <div className={style["search-block"]}>
           <img src="./img/search.png" alt="search" />
           <input onChange={onSearchInput} placeholder="Поиск по товарам" />
@@ -90,10 +93,10 @@ function Products(props) {
       </div>
 
       <div className={style["products"]}>
-        {
-          renderCard()
-        }
+        { renderCard() }
       </div>
+
+    </div>
     </div>
   );
 }

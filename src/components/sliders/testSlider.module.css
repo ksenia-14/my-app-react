@@ -7,5 +7,17 @@
     padding: 2%;
     position: relative;
     text-align: center;
-    z-index: -1;
+}
+
+.slider{
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+}
+
+.slider div{
+    /* margin: 10px;
+    padding: 2px; */
 }

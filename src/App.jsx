@@ -43,8 +43,10 @@ function App() {
     function setScroll() {
       if (cartOpened) {
         document.body.style.overflow = 'hidden';
+        document.body.style.marginRight = '18px';
       } else {
         document.body.style.overflow = 'unset';
+        document.body.style.marginRight = '0px';
       }
     }
 

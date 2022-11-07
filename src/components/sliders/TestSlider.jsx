@@ -14,7 +14,7 @@ const TestSlider = () => {
   }
 
   return (
-    <Slider {...settings}>
+    <Slider {...settings} className={style["slider"]}>
           <div>
             <Banner />
           </div>
