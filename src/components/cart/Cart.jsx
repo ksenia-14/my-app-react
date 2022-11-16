@@ -22,6 +22,21 @@ import style from "./cart.module.css"
   }
 ] */
 
+const addSpace = (number) => {
+  let price = String(number)
+  let priceWithSpace = ""
+  let cnt = 0
+  for (let i = (String(price).length - 1); i >= 0; i--) {
+    priceWithSpace = priceWithSpace + price[i]
+    cnt += 1
+    if (cnt == 3) {
+      priceWithSpace = priceWithSpace + " "
+      cnt = 0
+    }
+  }
+  return priceWithSpace.split("").reverse().join("")
+}
+
 const Cart = (props) => {
   return (
     <div className={style['overlay']}>
@@ -55,7 +70,7 @@ const Cart = (props) => {
 
         <div className={style["total-price"]}>
           <p className={style['total-price-text']}>Итог: </p>
-          <p className={style['total-price-summ']}>{props.totalPrice} руб.</p>
+          <p className={style['total-price-summ']}>{addSpace(props.totalPrice)} руб.</p>
           <button>Заказать</button>
         </div>
 

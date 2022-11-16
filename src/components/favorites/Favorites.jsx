@@ -9,13 +9,21 @@ const Favorites = (props) => {
 
   const context = React.useContext(AppContext)
 
-  const onAddToCart = (objCart) => {
-    // отправить данные objCart по ссылке api_cart
-    let api_cart = 'https://63500d1adf22c2af7b61c1de.mockapi.io/cart'
-    axios.post(api_cart, objCart)
-    // вернуть все, что находится в массиве cartItems на данный момент
-    // и добавить объект после того, как отобразились все данные массива
-    context.setCartItems([...context.cartItems, objCart])
+  const onAddToCart = async (objCart) => {
+    try {
+      const findCartItem = context.cartItems.find((cartItem) => cartItem.myId === objCart.myId)
+      if (findCartItem) {
+        // удаление с бэкенда
+        axios.delete(`https://63500d1adf22c2af7b61c1de.mockapi.io/cart/${findCartItem.id}`)
+        // удаление с фронтенда
+        context.setCartItems(prev => prev.filter(cartItem => cartItem.myId !== objCart.myId))
+      } else {
+        const { data } = await axios.post('https://63500d1adf22c2af7b61c1de.mockapi.io/cart', objCart)
+        context.setCartItems([...context.cartItems, data])
+      }
+    } catch {
+      alert('Не удалось добавить товар в корзину')
+    }
   }
 
   const onRemoveFavorites = (id) => {
@@ -26,6 +34,35 @@ const Favorites = (props) => {
     context.setFavoritesItems((prev) => prev.filter(item => Number(item.id) !== Number(id)))
   }
 
+  const renderCard = () => {
+
+    const filterItems = context.favoritesItems.filter((item) =>
+      item.title.toLowerCase().includes(context.search.toLowerCase())
+    )
+
+    return (
+      context.loading ? [...Array(3)] : filterItems
+    ).map((obj, index) => {
+      return (
+        <FavoritesCard
+          key={index}
+          {...obj}
+          isLoading={context.loading}
+          onPlus={
+            (cartObj) => {
+              onAddToCart(cartObj)
+            }
+          }
+          onFavorite={
+            (id) => {
+              onRemoveFavorites(id)
+            }
+          }
+        />
+      )
+    })
+  }
+
   return (
     <div className={style["products-section"]}>
 
@@ -34,30 +71,7 @@ const Favorites = (props) => {
       </div>
 
       <div className={style["products"]}>
-        {
-          context.favoritesItems.map(obj => {
-            return (
-              <FavoritesCard
-                key={obj.id}
-                id={obj.id}
-                title={obj.title}
-                description={obj.description}
-                price={obj.price}
-                img={obj.img}
-                onPlus={
-                  (cartObj) => {
-                    onAddToCart(cartObj)
-                  }
-                }
-                onFavorite={
-                  (id) => {
-                    onRemoveFavorites(id)
-                  }
-                }
-              />
-            )
-          })
-        }
+        { renderCard() }
       </div>
     </div>
   );

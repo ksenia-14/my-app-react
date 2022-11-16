@@ -34,6 +34,21 @@ const Card = (props) => {
     // setFavorite(!favorite);
   }
 
+  const addSpace = (number) => {
+    let price = String(number)
+    let priceWithSpace = ""
+    let cnt = 0
+    for (let i = (String(price).length - 1); i >= 0; i--) {
+      priceWithSpace = priceWithSpace + price[i]
+      cnt += 1
+      if (cnt == 3) {
+        priceWithSpace = priceWithSpace + " "
+        cnt = 0
+      }
+    }
+    return priceWithSpace.split("").reverse().join("")
+  }
+
   return (
     <div className={style['product-item']}>
       {
@@ -58,20 +73,20 @@ const Card = (props) => {
           <>
             {
               context.itemFavorited(props.id) === true ?
-                <button onClick={onClickFavorite} className={style['favorite-btn-added']}>Товар добавлен в избранное</button>
+                <button className={style['favorite-btn-added']} onClick={onClickFavorite}>Товар добавлен в избранное</button>
                 :
-                <button onClick={onClickFavorite} className={style['favorite-btn']}>Добавить в избранное</button>
+                <button className={style['favorite-btn']} onClick={onClickFavorite}>Добавить в избранное</button>
             }
             <img className={style['product-img']} src={props.img} alt={props.title} />
 
             <p className={style['product-title']}>{props.title}</p>
             <p className={style['product-description']}>{props.description}</p>
-            <p className={style['price']}>Цена</p>
 
             <div className={style['product-price']}>
-              <span>{props.price} руб</span>
+              <p className={style['price']}>Цена</p>
+              <span>{addSpace(props.price)} руб</span>
               <button className={context.itemAdded(props.myId) ? style['add-cart-check'] : style['add-cart-plus']} onClick={onClickPlus}>
-                <img src={context.itemAdded(props.myId) ? './img/check-lg.svg' : './img/plus.png'} alt="plus" />
+                <img src={context.itemAdded(props.myId) ? './img/check.svg' : './img/plus.svg'} alt="plus" />
               </button>
             </div>
           </>

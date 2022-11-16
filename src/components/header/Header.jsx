@@ -7,14 +7,24 @@ const Header = (props) => {
       <Link to='/'>
         <h1 className={style.logo}>ITECH</h1>
       </Link>
+
       <nav>
+
         <Link to='/favorites'>
-          <p className={style['nav-item']} href=''>ИЗБРАННОЕ</p>
+          <div className={style['count-sector']}>
+            <p className={style['nav-item']}>ИЗБРАННОЕ</p>
+            <div className={style['count-favorites-items']}>
+              <img src='./img/heart.svg' alt="heart"></img>
+              <span>{props.favoritesItems.length}</span>
+            </div>
+          </div>
         </Link>
-        <div className={style['cart-btn']}>
+
+        <div className={style['count-sector']}>
           <p className={style['nav-item']} onClick={props.openCart}>КОРЗИНА</p>
-          <span className={style['count-cart-items']}>{props.cartItems.length}</span>
+          <div className={style['count-cart-items']}><span>{props.cartItems.length}</span></div>
         </div>
+
       </nav>
     </header>
   )

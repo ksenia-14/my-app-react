@@ -53,7 +53,7 @@ function App() {
     axiosData()
     setScroll()
 
-  }, [cartOpened ])
+  }, [cartOpened])
 
   const onRemoveCartItem = (id) => {
     axios.delete(`https://63500d1adf22c2af7b61c1de.mockapi.io/cart/${id}`)
@@ -78,6 +78,8 @@ function App() {
       products,
       cartItems,
       favoritesItems,
+      search,
+      loading,
       setCartItems,
       setProduct,
       setFavoritesItems,
@@ -101,7 +103,10 @@ function App() {
           null
         }
 
-        <Header openCart={() => setCartOpened(true)} cartItems={cartItems} />
+        <Header openCart={() => setCartOpened(true)}
+          cartItems={cartItems}
+          favoritesItems={favoritesItems}
+        />
         <Routes>
           <Route
             path='/favorites'
